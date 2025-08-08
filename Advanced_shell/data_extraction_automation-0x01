@@ -1,0 +1,3 @@
+ read -r NAME HEIGHT WEIGHT TYPE <<< $(jq '"\(.name) \(.height) \(.weight) \(.types[].type.name)" ' -r data.json);
+ echo ${NAME^} is of type ${TYPE^} weighs $(($WEIGHT/10))kg, and is $(awk "BEGIN {print $HEIGHT/10}")m tall.
+
