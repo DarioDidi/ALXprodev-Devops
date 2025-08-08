@@ -1,4 +1,4 @@
-pok_list=("bulbasaur" "ivysaur" "venusaur" "charmander" "charmeleon")
+pok_list=("bulbasar" "ivysaur" "venusaur" "charmander" "charmeleon")
 
 $(mkdir pokemon_data)
 
@@ -6,7 +6,21 @@ for pok in ${pok_list[@]}
 do
 	echo Fetching data for $pok...;
 	touch pokemon_data/$pok.json;
-	curl "https://pokeapi.co/api/v2/pokemon/$pok/" --header 'Content-Type: application/json' > pokemon_data/$pok.json;
+	API_URL="https://pokeapi.co/api/v2/pokemon/$pok/"
+	RESPONSE=$(curl -s -w "%{http_code}" -o pokemon_data/$pok.json "$API_URL" --header 'Content-Type: application/json' );
 	echo Saved data to pokemon_data/$pok.json;
+
+	if [ "$RESPONSE" -ne 200 ]; then
+		for i in {1..3}
+			do
+				echo "Error: Received HTTP response code $RESPONSE"
+				echo "retrying in 2 seconds";
+				sleep 2;
+			done
+	fi
+
+	if [ "$RESPONSE" -ne 200 ]; then
+		echo $RESPONSE
+	fi
 	sleep 2;
 done
