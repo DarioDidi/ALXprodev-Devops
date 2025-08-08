@@ -1,0 +1,14 @@
+#!/bin/bash
+pok_list=("bulbasaur" "ivysaur" "venusaur" "charmander" "charmeleon")
+
+#echo "${pok_list[@]}" | xargs -P 5	-I {} echo '{}'
+
+for pok in "${pok_list[@]}"
+do
+	echo "Fetching data for $pok...;"
+	touch pokemon_data/"$pok".json;
+	API_URL="https://pokeapi.co/api/v2/pokemon/$pok/"
+	(curl -s -w "%{http_code}" -o pokemon_data/"$pok".json "$API_URL" --header 'Content-Type: application/json' && echo Saved data to pokemon_data/"$pok".json) &
+done
+
+wait
