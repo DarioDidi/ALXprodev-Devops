@@ -1,3 +1,9 @@
+#!/bin/bash
  read -r NAME HEIGHT WEIGHT TYPE <<< $(jq '"\(.name) \(.height) \(.weight) \(.types[].type.name)" ' -r data.json);
- echo ${NAME^} is of type ${TYPE^} weighs $(($WEIGHT/10))kg, and is $(awk "BEGIN {print $HEIGHT/10}")m tall.
+#sed
+name=${NAME^}
+type=${TYPE^}
+formatted_weight=$(($WEIGHT/10))
+formatted_height=$(awk "BEGIN {print $HEIGHT/10}")
+echo "$name is of type $type, weighs ${formatted_weight}kg, and is ${formatted_height}m tall."
 
