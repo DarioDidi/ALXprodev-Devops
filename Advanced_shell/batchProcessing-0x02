@@ -1,4 +1,4 @@
-pok_list=("bulbasar" "ivysaur" "venusaur" "charmander" "charmeleon")
+pok_list=("bulbasaur" "ivysaur" "venusaur" "charmander" "charmeleon")
 
 $(mkdir pokemon_data)
 
