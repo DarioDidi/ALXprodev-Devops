@@ -1,0 +1,12 @@
+pok_list=("bulbasaur" "ivysaur" "venusaur" "charmander" "charmeleon")
+
+$(mkdir pokemon_data)
+
+for pok in ${pok_list[@]}
+do
+	echo Fetching data for $pok...;
+	touch pokemon_data/$pok.json;
+	curl "https://pokeapi.co/api/v2/pokemon/$pok/" --header 'Content-Type: application/json' > pokemon_data/$pok.json;
+	echo Saved data to pokemon_data/$pok.json;
+	sleep 2;
+done
