@@ -1,0 +1,23 @@
+#!/bin/bash
+#sed
+
+echo "Name,Height (m),Weight (kg)" > pokemon_report.csv;
+
+
+pok_list=("bulbasaur" "ivysaur" "venusaur" "charmander" "charmeleon")
+
+for pok in ${pok_list[@]}
+do
+	read -r NAME HEIGHT WEIGHT TYPE <<< $(jq '"\(.name) \(.height) \(.weight)" ' -r pokemon_data/$pok.json);
+	name=${NAME^}
+	formatted_height=$(awk "BEGIN {printf \"%.1f\",${HEIGHT}/10}");
+	formatted_weight=$(awk "BEGIN {printf \"%.1f\",${WEIGHT}/10}");
+	echo "$name,${formatted_height},${formatted_weight}" >> pokemon_report.csv;
+done
+
+AVERAGE_HEIGHT=$(awk -F ',' 'NR > 1 { sum += $2; n++ } END { if (n > 0) print sum / n; }' pokemon_report.csv);
+AVERAGE_WEIGHT=$(awk -F ',' 'NR > 1 { sum += $3; n++ } END { if (n > 0) print sum / n; }' pokemon_report.csv);
+
+
+echo -e "\nAverage Height: ${AVERAGE_HEIGHT} m" >> pokemon_report.csv
+echo "Average Weight: ${AVERAGE_WEIGHT} kg" >> pokemon_report.csv

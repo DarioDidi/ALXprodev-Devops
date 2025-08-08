@@ -1,3 +1,4 @@
 pokemon_data/
 *.json
+*.csv
 errors.txt
