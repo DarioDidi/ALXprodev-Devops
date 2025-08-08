@@ -1,0 +1,2 @@
+#!/bin/bash
+curl 'https://pokeapi.co/api/v2/pokemon/pikachu/' --header 'Content-Type: application/json' > data.json
